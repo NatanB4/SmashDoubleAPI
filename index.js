@@ -1,9 +1,11 @@
-// const TokenCapture = require('./commands/TokenCapture.js')
 // const fetch = require('node-fetch');
 // const { readFileSync } = require('fs');
 const { CurrentRollete } = require('./Routes/CurrentRollete.js');
-const CheckToken = require('./Events/CheckToken.js');
+// const CheckToken = require('./Events/CheckToken.js');
 require('dotenv').config({ path: __dirname + '/.env' });
+const events = require('events');
+const { CheckToken } = require('./commands/CheckToken');
+const eventEmitter = new events.EventEmitter();
 
 module.exports = class SmashApi {
   user = {

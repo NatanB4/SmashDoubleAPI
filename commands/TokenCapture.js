@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 const { Logger } = require('./BaseCommand')
-const { writeFileSync } = require('fs')
 const path = require('path')
+const { writeFile } = require('fs/promises')
 
 module.exports = class TokenCapture {
   browser
@@ -12,7 +12,7 @@ module.exports = class TokenCapture {
 
   constructor(name, password) {
     this.user.name = name,
-    this.user.password = password
+      this.user.password = password
   }
 
   async run() {
@@ -21,51 +21,29 @@ module.exports = class TokenCapture {
   }
 
   async run_puppeeter({ name, password }) {
-    const page = await this.join_website();
-
-    await this.join_account(page, { name, password });
-    await this.join_double(page);
-  }
-
-  async join_website() {
-    this.browser = await puppeteer.launch({ headless: true });
+    this.browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'], });
     const page = await this.browser.newPage();
     page.setDefaultNavigationTimeout(50000);
     await page.goto("https://www.smashup.com/#!");
-    return page;
-  }
 
-  async join_account(page, user) {
+
     Logger.info("Logando na double");
     await page.click('[href="#login-registration"]');
 
     await page.focus('[name="login"]');
     await this.sleep(1000);
-    await page.keyboard.type(user.name);
+    await page.keyboard.type(this.user.name);
     await this.sleep(1000);
     await page.focus('input[type="password"]');
     await this.sleep(1000);
-    await page.keyboard.type(user.password);
+    await page.keyboard.type(this.user.password);
     await page.click('[type="submit"]');
     Logger.info("Entrando na conta");
-  }
-
-  async join_double(page) {
-    Logger.info("Entrando na pagina Double");
-    await this.sleep(1000);
-    await page.click('[src="includes/images/icon/side-icons/double-icon.png"]');
-    await this.sleep(1000);
-
-    await page.setRequestInterception(true);
 
     Logger.info("Iniciando sistema de captura de Token");
-    await this.write_token(page).then(() => {
-      return 
-    })
-  }
+    await page.setRequestInterception(true);
 
-  async write_token(page) {
-    page.on("request", async (request) => {
+    await page.on("request", async (request) => {
       if (
         request.url().includes("https://br-game.t1tcp.com/mini/double?token=")
       ) {
@@ -76,13 +54,17 @@ module.exports = class TokenCapture {
           .split(" ")[1];
 
         Logger.info(`Token encontrado: ${token}. salvando..`);
-        writeFileSync(`${path.resolve('./token.txt')}`, token)
-        await this.browser.close();
+        await writeFile(`${path.resolve('./token.txt')}`, token).then(async () => await this.browser.close())
         return token
       }
 
       await request.continue();
     });
+
+    Logger.info("Entrando na pagina Double");
+    await this.sleep(1000);
+    await page.click('[src="includes/images/icon/side-icons/double-icon.png"]');
+    await this.sleep(7000);
   }
 
   sleep(ms) {

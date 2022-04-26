@@ -1,0 +1,17 @@
+{
+  "name": "smash",
+  "version": "1.0.0",
+  "description": "bot smash",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "author": "Natã",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "node-fetch": "^2.6.7",
+    "puppeteer": "^13.6.0"
+  }
+}

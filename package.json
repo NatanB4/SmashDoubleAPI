@@ -1,5 +1,5 @@
 {
-  "name": "smash",
+  "name": "@natanbarbosa2/smashapi",
   "version": "1.0.0",
   "description": "bot smash",
   "main": "index.js",

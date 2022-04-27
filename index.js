@@ -1,10 +1,10 @@
 // const fetch = require('node-fetch');
 // const { readFileSync } = require('fs');
-const { CurrentRollete } = require('./Routes/CurrentRollete.js');
+const { CurrentRollete } = require('./Providers/CurrentRollete.js');
 // const CheckToken = require('./Events/CheckToken.js');
 require('dotenv').config({ path: __dirname + '/.env' });
 const events = require('events');
-const { CheckToken } = require('./commands/CheckToken');
+const { CheckToken } = require('./commands/CheckSession');
 const eventEmitter = new events.EventEmitter();
 
 module.exports = class SmashApi {
@@ -19,8 +19,8 @@ module.exports = class SmashApi {
   }
 
   async currentRollete() {
-    await CheckToken(this.user)
-    return CurrentRollete()
+    const token = await CheckToken(this.user)
+    return CurrentRollete(token)
   }
 }
 // (async function start() {

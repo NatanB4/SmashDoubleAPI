@@ -8,9 +8,9 @@ const Logger = {
   error: (msg) => console.error('\x1b[31m [ ERROR ] %s ', msg)
 }
 
-const readToken = () => {
+const readSession = () => {
   try {
-    return String(readFileSync('./token.txt'))
+    return String(readFileSync('./Session.json'))
   } catch (error) {
     return ''
   }
@@ -26,6 +26,6 @@ const request = async (url, token) => {
 
 module.exports = {
   Logger,
-  readToken,
+  readSession,
   request,
 }

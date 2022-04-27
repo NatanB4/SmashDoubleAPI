@@ -3,7 +3,7 @@ const { Logger } = require('./BaseCommand')
 const path = require('path')
 const { writeFile } = require('fs/promises')
 
-module.exports = class TokenCapture {
+module.exports = class SessionCapture {
   browser
   user = {
     name: '',
@@ -43,19 +43,29 @@ module.exports = class TokenCapture {
     Logger.info("Iniciando sistema de captura de Token");
     await page.setRequestInterception(true);
 
+    let data = {
+      cookie: undefined,
+      token: undefined,
+    };
+
     await page.on("request", async (request) => {
       if (
         request.url().includes("https://br-game.t1tcp.com/mini/double?token=")
       ) {
-        const token = request
+        data.token = request
           .url()
           .replace("=", " ")
           .replace("&", " ")
           .split(" ")[1];
 
-        Logger.info(`Token encontrado: ${token}. salvando..`);
-        await writeFile(`${path.resolve('./token.txt')}`, token).then(async () => await this.browser.close())
-        return token
+        Logger.info(`Token encontrado: ${data.token}. salvando..`);
+        await writeFile(`${path.resolve('./Session.json')}`, `${JSON.stringify(data)} \n`).then(async () => await this.browser.close())
+      }
+      if (
+        request.url().includes("https://player.smashup.com/async/available_subwallet_list") && data.cookie == undefined
+      ) {
+        data.cookie = request.headers().cookie.split(" ")[1].replace("=", " ").replace(";", " ").split(" ")[1]
+        Logger.info(`Cookie encontrado: ${data.cookie}. salvando..`);
       }
 
       await request.continue();

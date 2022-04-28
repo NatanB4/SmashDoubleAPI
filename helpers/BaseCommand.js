@@ -1,4 +1,6 @@
-const { access, constants, readFileSync, writeFileSync } = require('fs');
+const { readFileSync } = require('fs');
+const { writeFile } = require('fs/promises')
+
 const { default: fetch } = require('node-fetch');
 const path = require('path');
 
@@ -8,24 +10,28 @@ const Logger = {
   error: (msg) => console.error('\x1b[31m [ ERROR ] %s ', msg)
 }
 
-const readToken = () => {
+const readSession = async () => {
   try {
-    return String(readFileSync('./token.txt'))
+    return String(readFileSync('./Session.json'))
   } catch (error) {
-    return ''
+    await writeFile('./Session.json', '{ "token": "", "cookie": ""}')
+    return String(readFileSync('./Session.json'))
   }
 }
 
-const request = async (url, token) => {
+const request = async (url, { token = '', cookie = '' }) => {
   return await fetch(url, {
     method: "get",
-    headers: { "x-auth-key": token },
+    headers: {
+      "x-auth-key": token,
+      "cookie": cookie,
+    },
   }).then(async (data) => data)
 }
 
 
 module.exports = {
   Logger,
-  readToken,
+  readSession,
   request,
 }

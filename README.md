@@ -13,33 +13,25 @@
 
 ## Usage - Uso
 
-### No terminal:
 ```
-  $ npm i
-  $ node index.js
-  
+  $ npm i @natanbarbosa2/smashapi
 ```
+
+Create a new file js
+
+<img src="https://user-images.githubusercontent.com/89656623/165782950-e160fa02-efc1-4057-8580-5cdfcee906be.png" />
+     
+
 #### Caso não exista token ou seja inválido:
 - <img src="https://user-images.githubusercontent.com/89656623/165190180-4e997a18-4db5-4d03-90f7-9d781a94f4b6.png" />
 
 ### Caso ele exista e seja válido:
 - <img src="https://user-images.githubusercontent.com/89656623/165190423-1a935fa1-69d1-49f3-a017-4ffff016d056.png" />
 
-
 ## TODO LIST
 [X] - Setup inicial
-
 [X] - Sistema para capturar a roleta atual
-
-[   ] - Criação de rotas rest
-
-[   ] - POST Realizar apostas
-
-[   ] - GET Informações do usuario
-
-[   ] - GET Roleta atual/historico de apostas
+[X] - Sistema de Utima Cor e Informações do Usuario.
 
 ## Mais informações
-- Token tem válidade de no máximo 5 horas!
-- Sistema de rotas ainda não criado, o projeto ainda esta no inicio.
-
+- Token tem válidade de no máximo 15 horas!

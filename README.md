@@ -28,6 +28,15 @@ Create a new file js
 ### Caso ele exista e seja válido:
 - <img src="https://user-images.githubusercontent.com/89656623/165190423-1a935fa1-69d1-49f3-a017-4ffff016d056.png" />
 
+
+### Todas as funções disponiveis: 
+- currentRollete (Roleta atual)
+- listBalance (Saldo atual)
+- userProfile (Perfil do usuario)
+- lastColor (A ultima cor jogada)
+- userNotifications (Notificações do usuario)
+- outhers: betGame, htmlSmash, outherInformations.
+
 ## TODO LIST
 [X] - Setup inicial
 [X] - Sistema para capturar a roleta atual
@@ -35,3 +44,6 @@ Create a new file js
 
 ## Mais informações
 - Token tem válidade de no máximo 15 horas!
+
+## GITHUB
+- https://github.com/NatanBarbosa2/SmashDoubleAPI
